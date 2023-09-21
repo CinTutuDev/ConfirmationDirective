@@ -1,14 +1,19 @@
-import { Directive, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[appConfirmationPanel]',
 })
 export class ConfirmationPanelDirective {
- /*  numberOfClicks = 0; */
+
+  @Input('confirm') exectFunction: FunctionConstructor | any;
+
   @HostListener('click', ['$event.target'])
   onClick(btn: any) {
-    return window.confirm(' Estás seguro de querer guardar?');
-    /* console.log('button', btn, 'number of clicks:', this.numberOfClicks++); */
+    const confirmed = window.confirm(' Estás seguro de querer guardar?');
+
+    if(confirmed){
+      this.exectFunction();
+    }
   }
 
   constructor() {}
