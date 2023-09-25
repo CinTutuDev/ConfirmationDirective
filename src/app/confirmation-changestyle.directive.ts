@@ -1,17 +1,22 @@
-import { Directive, HostListener, ElementRef } from '@angular/core';
-/*ElementRef --> permite el acceso directo al DOM  */
+import { Directive, HostListener, ElementRef, Renderer2 } from '@angular/core';
+/*ElementRef --> permite el acceso directo al DOM ...NO seguro */
+/*Renderer2 --> de forma seguro en conbinacion con ElementRef; pg de referencia(https://www.tektutorialshub.com/angular/renderer2-angular/) */
 @Directive({
   selector: '[changestyle]',
 })
 export class ConfirmationChangestyleDirective {
   /*  Evento al pasar el ratón*/
   @HostListener('mouseover') onMouseOver() {
-    this.elementRef.nativeElement.style.backgroundColor = '#FFD700';
+    this.render.setStyle(
+      this.elementRef.nativeElement,
+      'backgroundColor',
+      '#FFD700'
+    );
   }
   /*  Evento fuera del ratón*/
   @HostListener('mouseout') onMouseOut() {
-    this.elementRef.nativeElement.style.backgroundColor = '';
+    this.render.setStyle(this.elementRef.nativeElement, 'backgroundColor', '');
   }
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef, private render: Renderer2) {}
 }
